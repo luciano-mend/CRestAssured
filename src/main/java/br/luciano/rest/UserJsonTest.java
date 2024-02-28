@@ -3,6 +3,7 @@ package br.luciano.rest;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.Assert;
@@ -118,14 +119,31 @@ public class UserJsonTest {
 			.body("findAll{it.name.contains('n')}.name", hasItems("Maria Joaquina", "Ana Júlia"))
 			.body("findAll{it.name.length() > 10}.name", hasItems("João da Silva", "Maria Joaquina"))
 			.body("name.collect{it.toUpperCase()}", hasItem("MARIA JOAQUINA"))
-			.body("name.findAll{it.startsWith('Maria')}collect{it.toUpperCase()}", hasItem("MARIA JOAQUINA"))
-			.body("name.findAll{it.startsWith('Maria')}collect{it.toUpperCase()}.toArray()", anyOf(arrayContaining("MARIA JOAQUINA"), arrayWithSize(1)))
+			.body("name.findAll{it.startsWith('Maria')}.collect{it.toUpperCase()}", hasItem("MARIA JOAQUINA"))
+			.body("name.findAll{it.startsWith('Maria')}.collect{it.toUpperCase()}.toArray()", anyOf(arrayContaining("MARIA JOAQUINA"), arrayWithSize(1)))
 			.body("age.collect{it * 2}", hasItems(60, 50, 40))
 			.body("id.max()", is(3))
 			.body("salary.min()", is(1234.5678f))
 			.body("salary.findAll{it != null}.sum()", is(closeTo(3734.5678f, 0.001)))
 			.body("salary.findAll{it != null}.sum()", allOf(greaterThan(3733d), lessThan(3735d)))
 		;
+	}
+	
+	@Test
+	public void devoUnirJsonPathComJava() {
+		ArrayList<String> names = 
+		given()
+		.when()
+			.get("http://restapi.wcaquino.me/users")
+		.then()
+			.statusCode(200)
+			.body("$", hasSize(3))
+			.extract().path("name.findAll{it.startsWith('Maria')}")
+		;
+		
+		Assert.assertEquals(1, names.size());
+		Assert.assertTrue(names.get(0).equalsIgnoreCase("mAria jOaquiNa"));
+		Assert.assertEquals(names.get(0).toUpperCase(), "maria joaQuina".toUpperCase());
 	}
 	
 }
