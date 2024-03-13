@@ -95,4 +95,35 @@ public class VerbosTest {
 			.body("salary", is(1234.5678f))
 		;
 	}
+	
+	@Test
+	public void deveRemoverUsuario() {
+		given()
+			.log().all()
+			.contentType("application/json")
+			.pathParam("entidade", "users")
+			.pathParam("userId", 1)
+		.when()
+			.delete("http://restapi.wcaquino.me/{entidade}/{userId}")
+		.then()
+			.log().all()
+			.statusCode(204)
+		;
+	}
+	
+	@Test
+	public void naoDeveRemoverUsuarioInexistente() {
+		given()
+			.log().all()
+			.contentType("application/json")
+			.pathParam("entidade", "users")
+			.pathParam("userId", 1000)
+		.when()
+			.delete("http://restapi.wcaquino.me/{entidade}/{userId}")
+		.then()
+			.log().all()
+			.statusCode(400)
+			.body("error", is("Registro inexistente"))
+		;
+	}
 }
