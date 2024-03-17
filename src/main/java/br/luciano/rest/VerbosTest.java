@@ -10,6 +10,8 @@ import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
 import org.junit.Test;
 
+import io.restassured.http.ContentType;
+
 public class VerbosTest {
 
 	@Test
@@ -103,6 +105,41 @@ public class VerbosTest {
 			.statusCode(400)
 			.body("id", is(nullValue()))
 			.body("error", is("Name é um atributo obrigatório"))
+		;
+	}
+	
+	@Test
+	public void deveSalvarUsuarioViaXML() {
+		given()
+			.log().all()
+			.contentType(ContentType.XML)
+			.body("<user><name>Jose</name><age>50</age></user>")
+		.when()
+			.post("http://restapi.wcaquino.me/usersXML")
+		.then()
+			.log().all()
+			.statusCode(201)
+			.body("user.@id", is(notNullValue()))
+			.body("user.name", is("Jose"))
+			.body("user.age", is("50"))
+		;
+	}
+	
+	@Test
+	public void deveSalvarUsuarioViaXMLUsandoObjeto() {
+		User user = new User("Usuario XML", 40);
+		given()
+			.log().all()
+			.contentType(ContentType.XML)
+			.body(user)
+		.when()
+			.post("http://restapi.wcaquino.me/usersXML")
+		.then()
+			.log().all()
+			.statusCode(201)
+			.body("user.@id", is(notNullValue()))
+			.body("user.name", is("Usuario XML"))
+			.body("user.age", is("40"))
 		;
 	}
 	
