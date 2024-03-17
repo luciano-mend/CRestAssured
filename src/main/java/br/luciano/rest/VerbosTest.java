@@ -128,6 +128,7 @@ public class VerbosTest {
 	@Test
 	public void deveSalvarUsuarioViaXMLUsandoObjeto() {
 		User user = new User("Usuario XML", 40);
+		
 		given()
 			.log().all()
 			.contentType(ContentType.XML)
@@ -141,6 +142,26 @@ public class VerbosTest {
 			.body("user.name", is("Usuario XML"))
 			.body("user.age", is("40"))
 		;
+	}
+	
+	@Test
+	public void deveDeserializarXMLAoSalvarUsuario() {
+		User user = new User("Usuario XML", 40);
+		
+		User usuarioInserido = given()
+			.contentType(ContentType.XML)
+			.body(user)
+		.when()
+			.post("http://restapi.wcaquino.me/usersXML")
+		.then()
+			.log().all()
+			.statusCode(201)
+			.extract().body().as(User.class)
+		;
+		
+		MatcherAssert.assertThat(usuarioInserido.getId(), notNullValue());
+		Assert.assertEquals("Usuario XML", usuarioInserido.getName());
+		MatcherAssert.assertThat(usuarioInserido.getAge(), is(40));
 	}
 	
 	@Test
