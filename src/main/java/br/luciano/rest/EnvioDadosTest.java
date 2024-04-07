@@ -36,5 +36,19 @@ public class EnvioDadosTest {
 			.contentType(containsString("utf-8"))
 		;
 	}
+	
+	@Test
+	public void deveEnviarValorViaHeader() {
+		given()
+			.log().all()
+			.accept(ContentType.XML)
+		.when()
+			.get("http://restapi.wcaquino.me/v2/users")
+		.then()
+			.log().ifValidationFails()
+			.statusCode(200)
+			.contentType(ContentType.XML)
+		;
+	}
 
 }
