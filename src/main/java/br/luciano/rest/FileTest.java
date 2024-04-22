@@ -1,7 +1,7 @@
 package br.luciano.rest;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 
 import java.io.File;
 
@@ -35,5 +35,21 @@ public class FileTest {
 			.body("name", is("arquivo.pdf"))
 		;
 	}
+	
+	@Test
+	public void naoDeveFazerUploadArquivoGrande() {
+		given()
+			.log().all()
+			.multiPart("arquivo", new File("src/main/resources/arquivoGrande.zip"))
+		.when()
+			.post("http://restapi.wcaquino.me/upload")
+		.then()
+			.log().all()
+			.time(lessThan(2300L))
+			.statusCode(413)
+		;
+	}
+	
+	
 
 }
