@@ -58,7 +58,7 @@ public class FileTest {
 	@Test
 	public void deveBaxarArquivo() throws IOException {
 		byte[] image = given()
-			.log().all()
+			.log().ifValidationFails()
 		.when()
 			.get("http://restapi.wcaquino.me/download")
 		.then()
