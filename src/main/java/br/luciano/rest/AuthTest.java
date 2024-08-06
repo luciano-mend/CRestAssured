@@ -11,14 +11,34 @@ public class AuthTest {
 	@Test
 	public void deveAcessarSWAPI() {
 		given()
-			.log().all()
+			.log().ifValidationFails()
 		.when()
 			.get("https://swapi.dev/api/people/1")
 		.then()
-			.log().all()
+			.log().ifValidationFails()
 			.statusCode(200)
 			.body("name", is("Luke Skywalker"))
 		;
 	}
 
+	//6d4406d83f3a9f5049b9d9eea779f94b
+	//https://api.openweathermap.org/data/2.5/weather?lat=-23.3112878&lon=-51.1595023&appid=6d4406d83f3a9f5049b9d9eea779f94b&units=metric
+	
+	@Test
+	public void deveObterClima() {
+		given()
+			.log().ifValidationFails()
+			.param("lat", "-23.3112878")
+			.param("lon", "-51.1595023")
+			.param("units", "metric")
+			.param("appid", "6d4406d83f3a9f5049b9d9eea779f94b")
+		.when()
+			.get("https://api.openweathermap.org/data/2.5/weather")
+		.then()
+			.log().all()
+			.statusCode(200)
+			.body("name", is("Londrina"))
+			.body("sys.country", is("BR"))
+		;
+	}
 }
