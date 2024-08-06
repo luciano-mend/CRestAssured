@@ -20,9 +20,6 @@ public class AuthTest {
 			.body("name", is("Luke Skywalker"))
 		;
 	}
-
-	//6d4406d83f3a9f5049b9d9eea779f94b
-	//https://api.openweathermap.org/data/2.5/weather?lat=-23.3112878&lon=-51.1595023&appid=6d4406d83f3a9f5049b9d9eea779f94b&units=metric
 	
 	@Test
 	public void deveObterClima() {
@@ -31,11 +28,12 @@ public class AuthTest {
 			.param("lat", "-23.3112878")
 			.param("lon", "-51.1595023")
 			.param("units", "metric")
+			.param("lang", "pt_br")
 			.param("appid", "6d4406d83f3a9f5049b9d9eea779f94b")
 		.when()
 			.get("https://api.openweathermap.org/data/2.5/weather")
 		.then()
-			.log().all()
+			.log().ifValidationFails()
 			.statusCode(200)
 			.body("name", is("Londrina"))
 			.body("sys.country", is("BR"))
