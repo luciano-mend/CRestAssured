@@ -39,4 +39,58 @@ public class AuthTest {
 			.body("sys.country", is("BR"))
 		;
 	}
+	
+	@Test
+	public void naoDeveAcessarSemSenha() {
+		given()
+			.log().ifValidationFails()
+		.when()
+			.get("http://restapi.wcaquino.me/basicauth")
+		.then()
+			.log().ifValidationFails()
+			.statusCode(401)
+		;
+	}
+	
+	
+	@Test
+	public void deveFazerAutenticacaoBasica() {
+		given()
+			.log().ifValidationFails()
+		.when()
+			.get("http://admin:senha@restapi.wcaquino.me/basicauth")
+		.then()
+			.log().ifValidationFails()
+			.statusCode(200)
+			.body("status", is("logado"))
+		;
+	}
+	
+	@Test
+	public void deveFazerAutenticacaoBasica2() {
+		given()
+			.log().ifValidationFails()
+			.auth().basic("admin", "senha")
+		.when()
+			.get("http://restapi.wcaquino.me/basicauth")
+		.then()
+			.log().ifValidationFails()
+			.statusCode(200)
+			.body("status", is("logado"))
+		;
+	}
+	
+	@Test
+	public void deveFazerAutenticacaoBasicaChallenge() {
+		given()
+			.log().ifValidationFails()
+			.auth().preemptive().basic("admin", "senha")
+		.when()
+			.get("http://restapi.wcaquino.me/basicauth2")
+		.then()
+			.log().ifValidationFails()
+			.statusCode(200)
+			.body("status", is("logado"))
+		;
+	}
 }
