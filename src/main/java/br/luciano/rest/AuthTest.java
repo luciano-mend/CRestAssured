@@ -3,7 +3,12 @@ package br.luciano.rest;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Test;
+
+import io.restassured.http.ContentType;
 
 
 public class AuthTest {
@@ -92,5 +97,40 @@ public class AuthTest {
 			.statusCode(200)
 			.body("status", is("logado"))
 		;
+	}
+	
+	@Test
+	public void deveFazerAutenticacaoComTokenJWT() {
+		Map<String, String> login = new HashMap<>();
+		login.put("email", "luciano@email.com");
+		login.put("senha", "123456");
+		
+		//login
+		//receber token
+		String token = given()
+			.log().ifValidationFails()
+			.body(login)
+			.contentType(ContentType.JSON)
+		.when()
+			.post("https://barrigarest.wcaquino.me/signin")
+		.then()
+			.log().ifValidationFails()
+			.statusCode(200)
+			.extract().path("token")
+		;
+		
+		
+		//obter as contas
+		given()
+			.log().ifValidationFails()
+			.header("Authorization", "JWT " + token)
+		.when()
+			.get("https://barrigarest.wcaquino.me/contas")
+		.then()
+			.log().ifValidationFails()
+			.statusCode(200)
+			.body("nome", notNullValue())
+		;
+		
 	}
 }
