@@ -3,12 +3,22 @@ package br.luciano.rest;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
+import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Assert;
 import org.junit.Test;
 
 import io.restassured.http.ContentType;
+import io.restassured.path.xml.XmlPath;
+import io.restassured.path.xml.XmlPath.CompatibilityMode;
 
 
 public class AuthTest {
@@ -131,6 +141,44 @@ public class AuthTest {
 			.statusCode(200)
 			.body("nome", notNullValue())
 		;
+
+	}
+	
+	
+	@Test
+	public void deveAcessarAplicacaoWeb() {
+		//login
+		String cookie = given()
+			.log().ifValidationFails()
+			.formParam("email", "luciano@email.com")
+			.formParam("senha", "123456")
+			.contentType(ContentType.URLENC.withCharset("UTF-8"))
+		.when()
+			.post("https://seubarriga.wcaquino.me/logar")
+		.then()
+			.log().ifValidationFails()
+			.statusCode(200)
+			.extract().header("set-cookie")
+		;
 		
+		cookie = cookie.split("=")[1].split(";")[0];
+
+		//obter conta
+		String body = given()
+			.log().ifValidationFails()
+			.contentType(ContentType.URLENC.withCharset("UTF-8"))
+			.cookie("connect.sid", cookie)
+		.when()
+			.get("https://seubarriga.wcaquino.me/contas")
+		.then()
+			.log().ifValidationFails()
+			.statusCode(200)
+			.body("html.body.table.tbody.tr[0].td[0]", is("Conta de teste"))
+			.extract().body().asString()
+		;
+		
+		XmlPath xmlPath = new XmlPath(CompatibilityMode.HTML, body);
+		
+		MatcherAssert.assertThat(xmlPath.getString("html.body.table.tbody.tr[0].td[0]"), is("Conta de teste"));
 	}
 }
