@@ -1,13 +1,13 @@
-package br.luciano.rest;
+package br.luciano.rest.model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "user")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class User {
+public class Usuario {
 
 	@XmlAttribute
 	private Long id;
@@ -15,13 +15,18 @@ public class User {
 	private Integer age;
 	private Double salary;
 
-	public User() {
+	public Usuario() {
 	}
-	
-	public User(String name, Integer age) {
-		super();
+
+	public Usuario(String name, Integer age) {
 		this.name = name;
 		this.age = age;
+	}
+
+	public Usuario(String name, Integer age, Double salary) {
+		this.name = name;
+		this.age = age;
+		this.salary = salary;
 	}
 
 	public Long getId() {
@@ -58,8 +63,6 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", age=" + age + ", salary=" + salary + "]";
+		return "Usuario [id=" + id + ", name=" + name + ", age=" + age + ", salary=" + salary + "]";
 	}
-	
-	
 }

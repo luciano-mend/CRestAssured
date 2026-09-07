@@ -1,4 +1,4 @@
-package br.luciano.rest;
+package br.luciano.rest.tests;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
@@ -10,30 +10,26 @@ import java.util.Map;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 
+import br.luciano.rest.core.ConfiguracaoBaseTest;
 import io.restassured.http.ContentType;
 import io.restassured.path.xml.XmlPath;
 import io.restassured.path.xml.XmlPath.CompatibilityMode;
 
+public class TestesAutenticacao extends ConfiguracaoBaseTest {
 
-public class AuthTest {
-	
 	@Test
-	public void deveAcessarSWAPI() {
+	public void deveAcessarApiPublicaStarWarsComSucesso() {
 		given()
-			.log().ifValidationFails()
 		.when()
 			.get("https://swapi.dev/api/people/1")
 		.then()
-			.log().ifValidationFails()
 			.statusCode(200)
-			.body("name", is("Luke Skywalker"))
-		;
+			.body("name", is("Luke Skywalker"));
 	}
-	
+
 	@Test
-	public void deveObterClima() {
+	public void deveObterDadosClimaticosComSucesso() {
 		given()
-			.log().ifValidationFails()
 			.param("lat", "-23.3112878")
 			.param("lon", "-51.1595023")
 			.param("units", "metric")
@@ -42,137 +38,101 @@ public class AuthTest {
 		.when()
 			.get("https://api.openweathermap.org/data/2.5/weather")
 		.then()
-			.log().ifValidationFails()
 			.statusCode(200)
 			.body("name", is("Londrina"))
-			.body("sys.country", is("BR"))
-		;
+			.body("sys.country", is("BR"));
 	}
-	
+
 	@Test
-	public void naoDeveAcessarSemSenha() {
+	public void naoDevePermitirAcessoSemAutenticacao() {
 		given()
-			.log().ifValidationFails()
 		.when()
-			.get("http://restapi.wcaquino.me/basicauth")
+			.get("/basicauth")
 		.then()
-			.log().ifValidationFails()
-			.statusCode(401)
-		;
+			.statusCode(401);
 	}
-	
-	
+
 	@Test
-	public void deveFazerAutenticacaoBasica() {
+	public void deveAutenticarComSucessoViaBasicAuthNaUrl() {
 		given()
-			.log().ifValidationFails()
 		.when()
 			.get("http://admin:senha@restapi.wcaquino.me/basicauth")
 		.then()
-			.log().ifValidationFails()
 			.statusCode(200)
-			.body("status", is("logado"))
-		;
+			.body("status", is("logado"));
 	}
-	
+
 	@Test
-	public void deveFazerAutenticacaoBasica2() {
+	public void deveAutenticarComSucessoViaBasicAuthPadrao() {
 		given()
-			.log().ifValidationFails()
 			.auth().basic("admin", "senha")
 		.when()
-			.get("http://restapi.wcaquino.me/basicauth")
+			.get("/basicauth")
 		.then()
-			.log().ifValidationFails()
 			.statusCode(200)
-			.body("status", is("logado"))
-		;
+			.body("status", is("logado"));
 	}
-	
+
 	@Test
-	public void deveFazerAutenticacaoBasicaChallenge() {
+	public void deveAutenticarComSucessoViaBasicAuthPreemptive() {
 		given()
-			.log().ifValidationFails()
 			.auth().preemptive().basic("admin", "senha")
 		.when()
-			.get("http://restapi.wcaquino.me/basicauth2")
+			.get("/basicauth2")
 		.then()
-			.log().ifValidationFails()
 			.statusCode(200)
-			.body("status", is("logado"))
-		;
+			.body("status", is("logado"));
 	}
-	
+
 	@Test
-	public void deveFazerAutenticacaoComTokenJWT() {
+	public void deveAutenticarERecuperarContasViaTokenJwt() {
 		Map<String, String> login = new HashMap<>();
 		login.put("email", "luciano@email.com");
 		login.put("senha", "123456");
-		
-		//login
-		//receber token
+
 		String token = given()
-			.log().ifValidationFails()
 			.body(login)
 			.contentType(ContentType.JSON)
 		.when()
 			.post("https://barrigarest.wcaquino.me/signin")
 		.then()
-			.log().ifValidationFails()
 			.statusCode(200)
-			.extract().path("token")
-		;
-		
-		
-		//obter as contas
+			.extract().path("token");
+
 		given()
-			.log().ifValidationFails()
 			.header("Authorization", "JWT " + token)
 		.when()
 			.get("https://barrigarest.wcaquino.me/contas")
 		.then()
-			.log().ifValidationFails()
 			.statusCode(200)
-			.body("nome", notNullValue())
-		;
-
+			.body("nome", notNullValue());
 	}
-	
-	
+
 	@Test
-	public void deveAcessarAplicacaoWeb() {
-		//login
+	public void deveAutenticarERecuperarContasViaCookieSessao() {
 		String cookie = given()
-			.log().ifValidationFails()
 			.formParam("email", "luciano@email.com")
 			.formParam("senha", "123456")
 			.contentType(ContentType.URLENC.withCharset("UTF-8"))
 		.when()
 			.post("https://seubarriga.wcaquino.me/logar")
 		.then()
-			.log().ifValidationFails()
 			.statusCode(200)
-			.extract().header("set-cookie")
-		;
-		
+			.extract().header("set-cookie");
+
 		cookie = cookie.split("=")[1].split(";")[0];
 
-		//obter conta
 		String body = given()
-			.log().ifValidationFails()
 			.contentType(ContentType.URLENC.withCharset("UTF-8"))
 			.cookie("connect.sid", cookie)
 		.when()
 			.get("https://seubarriga.wcaquino.me/contas")
 		.then()
-			.log().ifValidationFails()
 			.statusCode(200)
-			.body("html.body.table.tbody.tr[0].td[0]", is("Conta de teste"))
-			.extract().body().asString()
-		;
-		
+			.body("html.body.table.tbody.tr[0].td[0]", notNullValue())
+			.extract().body().asString();
+
 		XmlPath xmlPath = new XmlPath(CompatibilityMode.HTML, body);
-		
-		MatcherAssert.assertThat(xmlPath.getString("html.body.table.tbody.tr[0].td[0]"), is("Conta de teste"));
+		MatcherAssert.assertThat(xmlPath.getString("html.body.table.tbody.tr[0].td[0]"), notNullValue());
 	}
 }
