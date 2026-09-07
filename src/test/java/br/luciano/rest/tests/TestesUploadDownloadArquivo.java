@@ -38,9 +38,20 @@ public class TestesUploadDownloadArquivo extends ConfiguracaoBaseTest {
 	}
 
 	@Test
-	public void naoDeveFazerUploadArquivoGrande() {
+	public void naoDeveFazerUploadArquivoGrande() throws IOException {
+		File arquivoGrande = new File("src/test/resources/arquivoGrande.zip");
+		if (!arquivoGrande.exists()) {
+			if (arquivoGrande.getParentFile() != null) {
+				arquivoGrande.getParentFile().mkdirs();
+			}
+			byte[] buffer = new byte[5 * 1024 * 1024];
+			try (OutputStream out = new FileOutputStream(arquivoGrande)) {
+				out.write(buffer);
+			}
+		}
+
 		given()
-			.multiPart("arquivo", new File("src/test/resources/arquivoGrande.zip"))
+			.multiPart("arquivo", arquivoGrande)
 		.when()
 			.post("/upload")
 		.then()
