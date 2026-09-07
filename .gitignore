@@ -4,6 +4,14 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# IDE configuration files
+.settings/
+.vscode/
+.classpath
+.project
+.idea/
+*.iml
+
 # Compiled class file
 *.class
 
