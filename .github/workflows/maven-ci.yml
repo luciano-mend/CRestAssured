@@ -1,0 +1,33 @@
+name: Pipeline de Testes de API - Rest Assured & Java 21
+
+on:
+  push:
+    branches: [ "main", "feat/**" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    name: Execução Automatizada da Suíte de Testes
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout do Código
+        uses: actions/checkout@v4
+
+      - name: 2. Configurar Java 21 (JDK Temurin)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: 3. Executar Testes Automatizados
+        run: mvn clean test --batch-mode
+
+      - name: 4. Publicar Relatório de Testes (Surefire Reports)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-testes-surefire
+          path: target/surefire-reports/
