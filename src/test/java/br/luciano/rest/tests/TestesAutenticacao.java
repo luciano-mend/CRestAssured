@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.hamcrest.MatcherAssert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import br.luciano.rest.core.ConfiguracaoBaseTest;
 import io.restassured.http.ContentType;

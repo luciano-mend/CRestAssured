@@ -1,6 +1,6 @@
 package br.luciano.rest.core;
 
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
@@ -9,7 +9,7 @@ import io.restassured.builder.ResponseSpecBuilder;
 
 public class ConfiguracaoBaseTest {
 
-	@BeforeClass
+	@BeforeAll
 	public static void setup() {
 		RestAssured.baseURI = "http://restapi.wcaquino.me";
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();

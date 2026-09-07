@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import org.hamcrest.MatcherAssert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import br.luciano.rest.core.ConfiguracaoBaseTest;
 

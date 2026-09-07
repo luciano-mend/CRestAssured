@@ -18,8 +18,8 @@ import static org.hamcrest.Matchers.lessThan;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import br.luciano.rest.core.ConfiguracaoBaseTest;
 import br.luciano.rest.validations.ValidadorRespostaUsuario;
@@ -59,14 +59,14 @@ public class TestesUsuarioJson extends ConfiguracaoBaseTest {
 	public void deveVerificarPrimeiroNivelOutrasFormas() {
 		Response response = RestAssured.request(Method.GET, "http://restapi.wcaquino.me/users/1");
 
-		Assert.assertEquals("1", response.path("id").toString());
-		Assert.assertEquals("1", response.path("%s", "id").toString());
+		Assertions.assertEquals("1", response.path("id").toString());
+		Assertions.assertEquals("1", response.path("%s", "id").toString());
 
 		JsonPath jpath = new JsonPath(response.asString());
-		Assert.assertEquals(1, jpath.getInt("id"));
+		Assertions.assertEquals(1, jpath.getInt("id"));
 
 		int id = JsonPath.from(response.asString()).getInt("id");
-		Assert.assertEquals(1, id);
+		Assertions.assertEquals(1, id);
 	}
 
 	@Test
@@ -156,8 +156,8 @@ public class TestesUsuarioJson extends ConfiguracaoBaseTest {
 			.body("$", hasSize(3))
 			.extract().path("name.findAll{it.startsWith('Maria')}");
 
-		Assert.assertEquals(1, names.size());
-		Assert.assertTrue(names.get(0).equalsIgnoreCase("mAria jOaquiNa"));
-		Assert.assertEquals(names.get(0).toUpperCase(), "maria joaQuina".toUpperCase());
+		Assertions.assertEquals(1, names.size());
+		Assertions.assertTrue(names.get(0).equalsIgnoreCase("mAria jOaquiNa"));
+		Assertions.assertEquals(names.get(0).toUpperCase(), "maria joaQuina".toUpperCase());
 	}
 }

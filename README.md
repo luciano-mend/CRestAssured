@@ -1,6 +1,6 @@
 # 🧪 Portfólio de Automação de Testes de API - Rest Assured & Java 21
 
-Este repositório é um projeto de **Automação de Testes de API REST** desenvolvido com **Java 21**, **Rest Assured 5.5.0**, **JUnit 4** e **Allure Report**. O objetivo é demonstrar uma arquitetura de testes robusta, legível, sustentável e padronizada.
+Este repositório é um projeto de **Automação de Testes de API REST** desenvolvido com **Java 21**, **Rest Assured 5.5.0**, **JUnit 5 (Jupiter)** e **Allure Report**. O objetivo é demonstrar uma arquitetura de testes robusta, legível, sustentável e padronizada.
 
 ---
 
@@ -65,7 +65,7 @@ CRestAssured
 │       │       │   ├── TestesEnvioParametros.java    # Suíte de envio de Query String, QueryParam e Headers
 │       │       │   └── TestesHtml.java               # Suíte de validações de respostas HTML
 │       │       └── suite
-│       │           └── SuiteDeTestes.java            # Suíte principal de execução unificada (JUnit Suite)
+│       │           └── SuiteDeTestes.java            # Suíte principal de execução unificada (JUnit 5 Suite)
 │       └── resources
 │           ├── arquivo.pdf                       # Arquivo de teste para Upload
 │           ├── arquivoGrande.zip                 # Arquivo grande para teste de limite de upload
@@ -80,10 +80,10 @@ CRestAssured
 
 ## 🛠️ Tecnologias e Papéis na Arquitetura
 
-- **JUnit 4**: Framework para estruturação e asserção das suítes de teste.
+- **JUnit 5 (Jupiter)**: Framework moderno para estruturação, ciclo de vida e asserção das suítes de teste.
 - **Rest Assured 5.5.0**: Automação de chamadas HTTP/RESTful.
-- **Maven Surefire**: Execução Maven, geração de relatórios XML técnicos e definição de aprovação/reprovação do build.
-- **Allure Report 2.29.0**: Relatório gráfico interativo, histórico de tendências e anexos de evidências HTTP.
+- **Maven Surefire 3.5.2**: Execução Maven, geração de relatórios XML técnicos e definição de aprovação/reprovação do build.
+- **Allure Report 2.29.0 (JUnit 5)**: Relatório gráfico interativo, histórico de tendências e anexos de evidências HTTP.
 - **GitHub Actions & GitHub Pages**: CI/CD automatizado e hospedagem pública do Allure Report.
 - **Java 21 LTS**: Linguagem base do projeto.
 

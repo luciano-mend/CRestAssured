@@ -2,7 +2,8 @@ package br.luciano.rest.tests;
 
 import static io.restassured.RestAssured.given;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
 
 import br.luciano.rest.core.ConfiguracaoBaseTest;
@@ -21,14 +22,16 @@ public class TestesSchemaValidation extends ConfiguracaoBaseTest {
 			.body(RestAssuredMatchers.matchesXsdInClasspath("users.xsd"));
 	}
 
-	@Test(expected = SAXParseException.class)
+	@Test
 	public void naoDeveValidarSchemaXmlInvalido() {
-		given()
-		.when()
-			.get("/invalidUsersXML")
-		.then()
-			.statusCode(200)
-			.body(RestAssuredMatchers.matchesXsdInClasspath("users.xsd"));
+		Assertions.assertThrows(SAXParseException.class, () -> {
+			given()
+			.when()
+				.get("/invalidUsersXML")
+			.then()
+				.statusCode(200)
+				.body(RestAssuredMatchers.matchesXsdInClasspath("users.xsd"));
+		});
 	}
 
 	@Test

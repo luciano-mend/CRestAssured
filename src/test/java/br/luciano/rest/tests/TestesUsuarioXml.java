@@ -10,8 +10,8 @@ import static org.hamcrest.Matchers.is;
 
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import br.luciano.rest.core.ConfiguracaoBaseTest;
 
@@ -63,9 +63,9 @@ public class TestesUsuarioXml extends ConfiguracaoBaseTest {
 			.statusCode(200)
 			.extract().path("users.user.name.findAll{it.toString().contains('n')}");
 
-		Assert.assertEquals(2, nomes.size());
-		Assert.assertEquals("MARIA JOAQUINA", nomes.get(0).toString().toUpperCase());
-		Assert.assertTrue("Ana JULIA".equalsIgnoreCase(nomes.get(1).toString()));
+		Assertions.assertEquals(2, nomes.size());
+		Assertions.assertEquals("MARIA JOAQUINA", nomes.get(0).toString().toUpperCase());
+		Assertions.assertTrue("Ana JULIA".equalsIgnoreCase(nomes.get(1).toString()));
 	}
 
 	@Test

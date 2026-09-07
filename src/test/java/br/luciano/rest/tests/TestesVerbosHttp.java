@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.hamcrest.MatcherAssert;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import br.luciano.rest.core.ConfiguracaoBaseTest;
 import br.luciano.rest.model.Usuario;
@@ -80,7 +80,7 @@ public class TestesVerbosHttp extends ConfiguracaoBaseTest {
 			.extract().body().as(Usuario.class);
 
 		MatcherAssert.assertThat(usuarioInserido.getId(), notNullValue());
-		Assert.assertEquals("Usuario deserializando", usuarioInserido.getName());
+		Assertions.assertEquals("Usuario deserializando", usuarioInserido.getName());
 		MatcherAssert.assertThat(usuarioInserido.getAge(), is(35));
 	}
 
@@ -141,7 +141,7 @@ public class TestesVerbosHttp extends ConfiguracaoBaseTest {
 			.extract().body().as(Usuario.class);
 
 		MatcherAssert.assertThat(usuarioInserido.getId(), notNullValue());
-		Assert.assertEquals("Usuario XML", usuarioInserido.getName());
+		Assertions.assertEquals("Usuario XML", usuarioInserido.getName());
 		MatcherAssert.assertThat(usuarioInserido.getAge(), is(40));
 	}
 

@@ -37,20 +37,14 @@ jobs:
           name: relatorio-testes-surefire
           path: target/surefire-reports/
 
-      - name: 5. Instalar Allure CLI
+      - name: 5. Gerar Relatório Allure
         if: always()
-        uses: allure-framework/setup-allure@v1
-        with:
-          allure-version: '2.29.0'
+        run: mvn allure:report
 
-      - name: 6. Gerar Relatório HTML do Allure
-        if: always()
-        run: allure generate target/allure-results --clean -o allure-history
-
-      - name: 7. Publicar Relatório Allure no GitHub Pages
+      - name: 6. Publicar Relatório Allure no GitHub Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: allure-history
+          publish_dir: target/site/allure-maven-plugin

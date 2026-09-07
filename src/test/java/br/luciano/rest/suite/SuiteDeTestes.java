@@ -1,8 +1,7 @@
 package br.luciano.rest.suite;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 import br.luciano.rest.tests.TestesAutenticacao;
 import br.luciano.rest.tests.TestesEnvioParametros;
@@ -13,8 +12,8 @@ import br.luciano.rest.tests.TestesUsuarioJson;
 import br.luciano.rest.tests.TestesUsuarioXml;
 import br.luciano.rest.tests.TestesVerbosHttp;
 
-@RunWith(Suite.class)
-@SuiteClasses({
+@Suite
+@SelectClasses({
 	TestesAutenticacao.class,
 	TestesVerbosHttp.class,
 	TestesUsuarioJson.class,

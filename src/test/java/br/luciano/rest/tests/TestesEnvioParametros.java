@@ -3,7 +3,7 @@ package br.luciano.rest.tests;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.containsString;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import br.luciano.rest.core.ConfiguracaoBaseTest;
 import io.restassured.http.ContentType;
