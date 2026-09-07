@@ -1,1 +1,1 @@
-{"id":"d40c60b9b1c333fb609ffeaed443379f","fullName":"br.luciano.rest.tests.TestesUsuarioJson.deveRetornarErroQuandoUsuarioForInexistente","name":"deveRetornarErroQuandoUsuarioForInexistente()","status":"passed","testResultsByEnv":{"default":"b2136415a049eba5cd152bae22ee6667"}}
+{"id":"d40c60b9b1c333fb609ffeaed443379f","fullName":"br.luciano.rest.tests.TestesUsuarioJson.deveRetornarErroQuandoUsuarioForInexistente","name":"deveRetornarErroQuandoUsuarioForInexistente()","status":"passed","testResultsByEnv":{"default":"84d9325592b3cfbc7c6b2568fc900bc3"}}

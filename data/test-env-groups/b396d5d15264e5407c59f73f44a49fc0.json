@@ -1,1 +1,1 @@
-{"id":"b396d5d15264e5407c59f73f44a49fc0","fullName":"br.luciano.rest.tests.TestesAutenticacao.deveAutenticarERecuperarContasViaTokenJwt","name":"deveAutenticarERecuperarContasViaTokenJwt()","status":"passed","testResultsByEnv":{"default":"28e6eeae365ed1877a2820e039785707"}}
+{"id":"b396d5d15264e5407c59f73f44a49fc0","fullName":"br.luciano.rest.tests.TestesAutenticacao.deveAutenticarERecuperarContasViaTokenJwt","name":"deveAutenticarERecuperarContasViaTokenJwt()","status":"passed","testResultsByEnv":{"default":"788809c636f737bb45811dc752143984"}}
