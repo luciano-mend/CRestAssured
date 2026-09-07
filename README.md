@@ -1,6 +1,6 @@
 # 🧪 Portfólio de Automação de Testes de API - Rest Assured & Java 21
 
-Este repositório é um projeto de **Automação de Testes de API REST** desenvolvido com **Java 21**, **Rest Assured 5.5.0** e **JUnit 4**. O objetivo é demonstrar uma arquitetura de testes robusta, legível, sustentável e padronizada.
+Este repositório é um projeto de **Automação de Testes de API REST** desenvolvido com **Java 21**, **Rest Assured 5.5.0**, **JUnit 4** e **Allure Report**. O objetivo é demonstrar uma arquitetura de testes robusta, legível, sustentável e padronizada.
 
 ---
 
@@ -11,6 +11,15 @@ Demonstrar boas práticas de testes automatizados de API RESTful cobrindo:
 - Centralização de configurações globais do Rest Assured.
 - Validação especializada de respostas complexas.
 - Testes cobrindo requisições positivas (Happy Path), negativas (Edge Cases), autenticação (Basic, JWT, Cookie/Session), schemas (JSON Schema e XML XSD) e manipulação de arquivos (Upload/Download).
+- **Relatório Visual Interativo & Evidências**: Geração automática de dashboards gráficos com **Allure Report** e publicação contínua via **GitHub Pages**.
+
+---
+
+## 📊 Relatório de Testes (Allure Report)
+
+O projeto gera e publica automaticamente o relatório gráfico e interativo do Allure no GitHub Pages a cada execução da esteira de CI:
+
+🌐 **[Visualizar Allure Report Online (GitHub Pages)](https://luciano-mend.github.io/CRestAssured/)**
 
 ---
 
@@ -33,47 +42,50 @@ A suíte de testes foi estruturada para garantir cobertura ampla e cenários div
 
 ```
 CRestAssured
+├── .github
+│   └── workflows
+│       └── maven-ci.yml                    # Pipeline CI/CD no GitHub Actions (Testes + Allure + GitHub Pages)
+├── src
+│   └── test
+│       ├── java
+│       │   └── br/luciano/rest
+│       │       ├── core
+│       │       │   └── ConfiguracaoBaseTest.java # Classe base para configurações do Rest Assured e filtro do Allure
+│       │       ├── model
+│       │       │   └── Usuario.java              # POJO / DTO de modelo serializável para JSON/XML
+│       │       ├── validations
+│       │       │   └── ValidadorRespostaUsuario.java # Validador isolado para respostas com > 5 atributos
+│       │       ├── tests
+│       │       │   ├── TestesAutenticacao.java       # Suíte de autenticação (Basic Auth, JWT, Cookie)
+│       │       │   ├── TestesVerbosHttp.java         # Suíte de métodos HTTP (GET, POST, PUT, DELETE)
+│       │       │   ├── TestesUsuarioJson.java        # Suíte de buscas e extração JSONPath
+│       │       │   ├── TestesUsuarioXml.java         # Suíte de buscas e extração XMLPath e XPath
+│       │       │   ├── TestesUploadDownloadArquivo.java # Suíte de Multipart Upload e Download
+│       │       │   ├── TestesSchemaValidation.java   # Suíte de validação de contratos JSON/XML
+│       │       │   ├── TestesEnvioParametros.java    # Suíte de envio de Query String, QueryParam e Headers
+│       │       │   └── TestesHtml.java               # Suíte de validações de respostas HTML
+│       │       └── suite
+│       │           └── SuiteDeTestes.java            # Suíte principal de execução unificada (JUnit Suite)
+│       └── resources
+│           ├── arquivo.pdf                       # Arquivo de teste para Upload
+│           ├── arquivoGrande.zip                 # Arquivo grande para teste de limite de upload
+│           ├── file.jpg                          # Imagem baixada no teste de Download
+│           ├── users.json                        # Contrato JSON Schema
+│           └── users.xsd                         # Contrato XML Schema
 ├── pom.xml
-├── README.md
-└── src
-    └── test
-        ├── java
-        │   └── br/luciano/rest
-        │       ├── core
-        │       │   └── ConfiguracaoBaseTest.java # Classe base para configurações do Rest Assured (logs, baseURI, specs)
-        │       ├── model
-        │       │   └── Usuario.java              # POJO / DTO de modelo serializável para JSON/XML
-        │       ├── validations
-        │       │   └── ValidadorRespostaUsuario.java # Validador isolado para respostas com > 5 atributos
-        │       ├── tests
-        │       │   ├── TestesAutenticacao.java       # Suíte de autenticação (Basic Auth, JWT, Cookie)
-        │       ├── TestesVerbosHttp.java         # Suíte de métodos HTTP (GET, POST, PUT, DELETE)
-        │       ├── TestesUsuarioJson.java        # Suíte de buscas e extração JSONPath
-        │       ├── TestesUsuarioXml.java         # Suíte de buscas e extração XMLPath e XPath
-        │       ├── TestesUploadDownloadArquivo.java # Suíte de Multipart Upload e Download
-        │       ├── TestesSchemaValidation.java   # Suíte de validação de contratos JSON/XML
-        │       ├── TestesEnvioParametros.java    # Suíte de envio de Query String, QueryParam e Headers
-        │       └── TestesHtml.java               # Suíte de validações de respostas HTML
-        │       └── suite
-        │           └── SuiteDeTestes.java            # Suíte principal de execução unificada (JUnit Suite)
-        └── resources
-            ├── arquivo.pdf                       # Arquivo de teste para Upload
-            ├── arquivoGrande.zip                 # Arquivo grande para teste de limite de upload
-            ├── file.jpg                          # Imagem baixada no teste de Download
-            ├── users.json                        # Contrato JSON Schema
-            └── users.xsd                         # Contrato XML Schema
+└── README.md
 ```
 
 ---
 
-## 🛠️ Tecnologias e Dependências
+## 🛠️ Tecnologias e Papéis na Arquitetura
 
-- **Linguagem**: Java 21 LTS
-- **Framework de Teste de API**: Rest Assured `5.5.0`
-- **Runner de Teste**: JUnit `4.13.2`
-- **Validação de Schemas**: `rest-assured:json-schema-validator`
-- **Serialização/Deserialização**: Gson & Jakarta XML Binding (JAXB 4.0)
-- **Gerenciador de Dependências**: Apache Maven 3.8+
+- **JUnit 4**: Framework para estruturação e asserção das suítes de teste.
+- **Rest Assured 5.5.0**: Automação de chamadas HTTP/RESTful.
+- **Maven Surefire**: Execução Maven, geração de relatórios XML técnicos e definição de aprovação/reprovação do build.
+- **Allure Report 2.29.0**: Relatório gráfico interativo, histórico de tendências e anexos de evidências HTTP.
+- **GitHub Actions & GitHub Pages**: CI/CD automatizado e hospedagem pública do Allure Report.
+- **Java 21 LTS**: Linguagem base do projeto.
 
 ---
 

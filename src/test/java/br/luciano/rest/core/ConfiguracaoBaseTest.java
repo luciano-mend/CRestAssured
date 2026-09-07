@@ -2,6 +2,7 @@ package br.luciano.rest.core;
 
 import org.junit.BeforeClass;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -14,6 +15,7 @@ public class ConfiguracaoBaseTest {
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 
 		RequestSpecBuilder requestBuilder = new RequestSpecBuilder();
+		requestBuilder.addFilter(new AllureRestAssured());
 		RestAssured.requestSpecification = requestBuilder.build();
 
 		ResponseSpecBuilder responseBuilder = new ResponseSpecBuilder();
