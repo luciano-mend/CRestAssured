@@ -1,0 +1,27 @@
+<div>POST to http://restapi.wcaquino.me/usersXML</div>
+
+    <h4>Body</h4>
+    <div>
+    <pre class="preformated-text">
+&lt;user&gt;
+  &lt;name&gt;Usuario XML&lt;/name&gt;
+  &lt;age&gt;40&lt;/age&gt;
+&lt;/user&gt;    </pre>
+    </div>
+
+    <h4>Headers</h4>
+    <div>
+            <div>Accept: */*</div>
+            <div>Content-Type: application/xml; charset=ISO-8859-1</div>
+    </div>
+
+
+
+    <h4>Curl</h4>
+    <div>
+        curl -v -X POST &#39;http://restapi.wcaquino.me/usersXML&#39; -H &#39;Accept: */*&#39; -H &#39;Content-Type: application/xml; charset=ISO-8859-1&#39; -d &#39;&lt;user&gt;
+  &lt;name&gt;Usuario XML&lt;/name&gt;
+  &lt;age&gt;40&lt;/age&gt;
+&lt;/user&gt;&#39;
+    </div>
+
