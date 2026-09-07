@@ -37,21 +37,15 @@ jobs:
           name: relatorio-testes-surefire
           path: target/surefire-reports/
 
-      - name: 5. Carregar Histórico do Allure Report da branch gh-pages
+      - name: 5. Instalar Allure CLI
         if: always()
-        uses: actions/checkout@v4
+        uses: allure-framework/setup-allure@v1
         with:
-          ref: gh-pages
-          path: gh-pages
-          continue-on-error: true
+          allure-version: '2.29.0'
 
-      - name: 6. Gerar Relatório HTML do Allure com Histórico
+      - name: 6. Gerar Relatório HTML do Allure
         if: always()
-        uses: simple-elf/allure-report-action@v1.9
-        with:
-          allure_results: target/allure-results
-          allure_history: allure-history
-          keep_reports: 20
+        run: allure generate target/allure-results --clean -o allure-history
 
       - name: 7. Publicar Relatório Allure no GitHub Pages
         if: always()
