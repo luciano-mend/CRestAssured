@@ -1,5 +1,11 @@
 # 🧪 Portfólio de Automação de Testes de API - Rest Assured & Java 21
 
+![Java](https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Maven](https://img.shields.io/badge/Apache_Maven-3.8+-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)
+![Rest Assured](https://img.shields.io/badge/Rest_Assured-5.5.0-green?style=for-the-badge)
+![JUnit 5](https://img.shields.io/badge/JUnit-5.10.2-25A162?style=for-the-badge&logo=junit5&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI/CD-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
+
 Este repositório é um projeto de **Automação de Testes de API REST** desenvolvido com **Java 21**, **Rest Assured 5.5.0**, **JUnit 5 (Jupiter)** e **Allure Report**. O objetivo é demonstrar uma arquitetura de testes robusta, legível, sustentável e padronizada.
 
 ---
